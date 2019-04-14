@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- a service object; we will be profiling its methods -->
+    <bean id="queryService" class="com.alt.lupus.QueryService"/>
+
+    <!-- this switches on the load-time weaving -->
+    <!-- 
+    <context:load-time-weaver weaver-class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
+    -->
+    <context:load-time-weaver />
+    <context:component-scan base-package="com.lupus.perf" />
+    <context:annotation-config/>
+    <context:spring-configured />
+    
+    <!--
+    -javaagent:E:\docs\.m2\repository\org\springframework\spring-instrument\4.3.23.RELEASE\spring-instrument-4.3.23.RELEASE.jar 
+     -->
+</beans>
+
+
+

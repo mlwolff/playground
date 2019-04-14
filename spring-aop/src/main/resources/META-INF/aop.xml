@@ -1,0 +1,15 @@
+<!DOCTYPE aspectj PUBLIC
+        "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <weaver>
+        <!-- only weave classes in our application-specific packages -->
+        <include within="com.lupus.aop.PerfAspect"/>
+        <include within="com.alt.lupus..*"/>
+        <include within="com.lupus.perf..*"/>
+    </weaver>
+
+    <aspects>
+        <!-- weave in just this aspect -->        
+        <aspect name="com.lupus.aop.PerfAspect"/>
+    </aspects>
+</aspectj>
