@@ -1,6 +1,13 @@
 # Compiled class file
 *.class
 
+# maven
+target
+
+#eclipse
+.project
+.settings
+
 # Log file
 *.log
 
