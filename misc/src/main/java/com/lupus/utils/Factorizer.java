@@ -40,6 +40,7 @@ public class Factorizer {
         
         
         System.out.println(String.format("factorize() [%dms]", System.currentTimeMillis() - start));
+        System.out.flush();
         
         return rc;
     }
