@@ -3,13 +3,20 @@ package com.lupus.atrify.stockdemo.jpa;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Product {
 
 	/** The unique article number of a product. */
 	@Id
+	@ApiModelProperty(value="The unique article number of a product", required = true)
 	private String articleNumber;
 	
+	/** Some name. */
+	@ApiModelProperty("The product's name")
+	private String name;
+
 	protected Product() {}; // Required by JPA.
 	
 	public Product(String articleNumber, String name) {
@@ -17,9 +24,6 @@ public class Product {
 		this.articleNumber = articleNumber;
 		this.name = name;
 	}
-
-	/** Some name. */
-	private String name;
 
 	/**
 	 * 

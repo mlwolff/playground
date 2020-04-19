@@ -23,8 +23,9 @@ public interface ProductService {
 	/**
 	 * 
 	 * @param articleNumber
+	 * @return true, if a product could be removed, otherwise false.
 	 */
-	void remove(String articleNumber);
+	boolean remove(String articleNumber);
 	
 	/**
 	 * 

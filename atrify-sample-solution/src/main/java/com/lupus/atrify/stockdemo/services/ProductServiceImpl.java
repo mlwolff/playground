@@ -2,7 +2,6 @@ package com.lupus.atrify.stockdemo.services;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,17 +19,17 @@ public class ProductServiceImpl implements ProductService {
 		Objects.requireNonNull(product);
 		Objects.requireNonNull(product.getArticleNumber());
 		
-		Optional<Product> byId = repository.findById(product.getArticleNumber());
-		if (byId.isPresent()) {
-			throw new RuntimeException(String.format("Product with articleNumber %s already exists.", product.getArticleNumber()));
-		}
-		
 		return repository.save(product);
 	}
 
 	@Override
-	public void remove(String articleNumber) {
-		repository.deleteById(articleNumber);
+	public boolean remove(String articleNumber) {
+		if (repository.existsById(articleNumber)) {
+			repository.deleteById(articleNumber);
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override

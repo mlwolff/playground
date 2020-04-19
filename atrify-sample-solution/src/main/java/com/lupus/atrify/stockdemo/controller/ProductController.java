@@ -3,17 +3,17 @@
  */
 package com.lupus.atrify.stockdemo.controller;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lupus.atrify.stockdemo.jpa.Product;
@@ -34,6 +34,9 @@ public class ProductController {
 	ProductService productService;
 	
 	
+	/**
+	 * @return All products.
+	 */
 	@ApiOperation("Returns a list of all available products")
 	@GetMapping()
 	@ResponseBody
@@ -44,10 +47,19 @@ public class ProductController {
 	}
 	
 
-	@ApiOperation("Adds/registers a new product")
+	/**
+	 * Adds or updates a product.
+	 * @param articleNumber
+	 * 		The article number.
+	 * @param product
+	 * 		The product.
+	 * @return
+	 * 		The saved product
+	 */
+	@ApiOperation("Adds or updates a new, resp. an existing product")
 	@PutMapping(value = "/{articleNumber}", 
-			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-	        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+			consumes = {MediaType.APPLICATION_JSON_VALUE},
+	        produces = {MediaType.APPLICATION_JSON_VALUE})
 	
 	@ResponseBody
 	public Product add(
@@ -64,5 +76,30 @@ public class ProductController {
 		
 	}
 	
+	@ApiOperation("Gets the product for the specified articlenumber")
+	@GetMapping(value = "/{articleNumber}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public Product get(
+			@ApiParam("The articlenumber of the product")
+			@PathVariable String articleNumber) {
+		Product product = productService.getByArticleNumber(articleNumber);
+		
+		if (product != null) {
+			return product;
+		}
+		
+		throw new NotFoundException("No product found with article number: " + articleNumber);
+	}
 	
+	@ApiOperation("Removes the product with the specified articlenumber")
+	@DeleteMapping(value = "/{articleNumber}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void delete(
+			@ApiParam("The articlenumber of the product")
+			@PathVariable String articleNumber) {
+		
+		if (!productService.remove(articleNumber)) {
+			throw new NotFoundException("No product exists with article number: " + articleNumber);
+		}
+	}
 }
