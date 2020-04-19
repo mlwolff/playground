@@ -19,10 +19,4 @@ public interface ProductRepository extends CrudRepository<Product, String> {
 	 */
 	List<Product> findByName(String name);
 	
-	/**
-	 * 
-	 * @param articleNumber
-	 * @return
-	 */
-	Product findByArticleNumber(String articleNumber);
 }

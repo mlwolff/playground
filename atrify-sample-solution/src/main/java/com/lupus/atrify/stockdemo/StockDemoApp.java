@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.lupus.atrify.stockdemo.jpa.Product;
-import com.lupus.atrify.stockdemo.jpa.ProductRepository;
+import com.lupus.atrify.stockdemo.services.ProductService;
 
 @SpringBootApplication
 public class StockDemoApp {
@@ -19,15 +19,18 @@ public class StockDemoApp {
 	}
 
 	@Bean
-	public CommandLineRunner setupRepositories(ProductRepository repo) {
+	public CommandLineRunner setupRepositories(ProductService svc) {
 		return (args) -> {
-			repo.save(new Product("4711", "Kölnisch Wasser"));
-			repo.save(new Product("0815", "Schrott"));
+			svc.add(new Product("4711", "Kölnisch Wasser"));
+			svc.add(new Product("0815", "Schrott"));
+			svc.add(new Product("0000", "Noch mehr Schrott"));
 			
-			LOGGER.info(String.format("Stored %d products", repo.count()));			
-			
-			repo.save(new Product("0815", "Schrott"));
+			LOGGER.info(String.format("%d products registered", svc.getNumberOfProducts()));			
 
+			for (Product product : svc.getAll()) {
+				LOGGER.info(String.valueOf(product));
+			}
+			
 		};
 	}
 
